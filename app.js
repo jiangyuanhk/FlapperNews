@@ -13,7 +13,12 @@ function($scope){
   $scope.test = 'Hello world!';
 
   $scope.addPost = function() {
+    if ($scope.title === '') { return; }
     $scope.posts.push({title: $scope.title, upvotes: 4});
     $scope.title = ""; // clear textbar after calling this func
+  }
+
+  $scope.incrementUpvotes = function(post) {
+    post.upvotes += 1;
   }
 }]);
