@@ -11,4 +11,8 @@ function($scope){
     {title: 'post 5', upvotes: 4}
   ];
   $scope.test = 'Hello world!';
+
+  $scope.addPost = function() {
+    $scope.posts.push({title: "A new post", upvotes: 4});
+  }
 }]);
