@@ -13,9 +13,14 @@ function($scope){
   $scope.test = 'Hello world!';
 
   $scope.addPost = function() {
-    if ($scope.title === '') { return; }
-    $scope.posts.push({title: $scope.title, upvotes: 4});
-    $scope.title = ""; // clear textbar after calling this func
+    if(!$scope.title || $scope.title === '') { return; }
+    $scope.posts.push({
+      title: $scope.title, 
+      link: $scope.link,
+      upvotes: 0
+      });
+    $scope.title = ''; // clear textbar after calling this func
+    $scope.link = ''; // clear the link after calling
   }
 
   $scope.incrementUpvotes = function(post) {
