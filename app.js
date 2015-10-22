@@ -1,4 +1,16 @@
 var app = angular.module('flapperNews', ['ui.router']);
+app.config([
+  '$stateProvider',
+  '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+    .state('home', {
+      url: '/home',
+      templateUrl: '/home.html',
+      controller: 'MainCtrl'
+    });
+    $urlRouterProvider.otherwise('home'); // if not found, redirect back to home 
+  }])
 app.factory('posts', [function(){
   //service body
   var obj = {
