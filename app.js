@@ -2,7 +2,7 @@ var app = angular.module('flapperNews', []);
 app.factory('posts', [function(){
   //service body
   var obj = {
-    posts: []
+    key: []
   };
   return obj;
 }]);
@@ -10,7 +10,7 @@ app.controller('MainCtrl', [
 '$scope',
 'posts',
 function($scope, posts){
-  $scope.posts = posts.posts;
+  $scope.posts = posts.key;
   $scope.test = 'Hello world!';
 
   $scope.addPost = function() {
