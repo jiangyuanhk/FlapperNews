@@ -1,6 +1,12 @@
-var module = angular.module('flapperNews', []);
-
-module.controller('MainCtrl', [
+var app = angular.module('flapperNews', []);
+app.factory('psots', [function(){
+  //service body
+  var obj = {
+    posts: []
+  };
+  return obj;
+}]);
+app.controller('MainCtrl', [
 '$scope',
 function($scope){
   $scope.posts = [
