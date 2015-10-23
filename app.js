@@ -31,6 +31,14 @@ app.controller('PostsCtrl', [
 'posts',
 function($scope, $stateParams, posts){
   $scope.post = posts.posts[$stateParams.id];
+  $scope.addComment = function(){
+  if($scope.body === '') { return; }
+  $scope.post.comments.push({
+    body: $scope.body,
+    author: 'user',
+    upvotes: 0
+  });
+  $scope.body = '';};
 }]);
 
 app.controller('MainCtrl', [
@@ -53,7 +61,7 @@ function($scope, posts){
       });
     $scope.title = ''; // clear textbar after calling this func
     $scope.link = ''; // clear the link after calling
-  }
+  };
 
   $scope.incrementUpvotes = function(post) {
     post.upvotes += 1;
