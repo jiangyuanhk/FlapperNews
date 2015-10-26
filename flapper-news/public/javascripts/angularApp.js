@@ -17,7 +17,12 @@ app.config([
     .state('posts', {
       url: '/posts/{id}',
       templateUrl: '/posts.html',
-      controller: 'PostsCtrl'
+      controller: 'PostsCtrl',
+      resolve: {
+        post: ['$stateParams', 'posts', function($stateParams, posts) {
+          return posts.get($stateParams.id);
+        }]
+      }
     });
     $urlRouterProvider.otherwise('home'); // if not found, redirect back to home 
   }])
@@ -34,6 +39,12 @@ app.factory('posts', ['$http', function($http){
     });
   };
 
+  obj.get = function(id) {
+    return $http.get('/posts/' + id).then(function(res){
+      return res.data;
+    });
+  };
+
   obj.create = function(post) {
     return $http.post('/posts', post).success(function(data){
       obj.posts.push(data);
@@ -47,6 +58,10 @@ app.factory('posts', ['$http', function($http){
     });
   };
 
+  obj.addComment = function(id, comment) {
+    return $http.post('/posts/' + id + '/comments', comment);
+  };
+
   return obj;
 }]);
 
@@ -54,16 +69,19 @@ app.controller('PostsCtrl', [
 '$scope',
 '$stateParams',
 'posts',
-function($scope, $stateParams, posts){
-  $scope.post = posts.posts[$stateParams.id];
+'post',
+function($scope, $stateParams, posts, post){
+  $scope.post = post;
   $scope.addComment = function(){
-  if($scope.body === '') { return; }
-  $scope.post.comments.push({
-    body: $scope.body,
-    author: 'user',
-    upvotes: 0
-  });
-  $scope.body = '';};
+    if($scope.body === '') { return; }
+    posts.addComment(post._id, {
+      body: $scope.body,
+      author: 'user',
+    }).success(function(comment) {
+      $scope.post.comments.push(comment);
+    });
+    $scope.body = '';
+  };
 }]);
 
 app.controller('MainCtrl', [
